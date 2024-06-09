@@ -36,8 +36,6 @@ EXPOSE 80
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
 
-CMD ["docker", "run", "-p", "5001:80",]
-
 # EXPOSE 80
 # ENV HOST=0.0.0.0
 
