@@ -2,11 +2,11 @@ name: Say hello
 
 on:
   push:
-    branches: [main]
+    branches: ["main"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Echo the message
-        run: echo "Hello, world!"
+        run: echo "Hello, woooorld!"
