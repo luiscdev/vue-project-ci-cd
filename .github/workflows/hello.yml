@@ -5,8 +5,8 @@ on:
     branches: ["main"]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  hello_world:
+    runs-on: ubuntu-18.04
     steps:
       - name: Echo the message
         run: echo "Hello, woooorld!"
