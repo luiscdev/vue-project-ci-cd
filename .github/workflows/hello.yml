@@ -5,7 +5,7 @@ on:
     branches: ["main"]
 
 jobs:
-  hello_world:
+  build:
     runs-on: ubuntu-18.04
     steps:
       - name: Echo the message
