@@ -1,20 +1,41 @@
-name: Deployment Pipeline
-
+name: Build and Deploy Vue Firebase
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '20'
-      - name: Install dependencies
+      - name: Checkout Repo
+        uses: actions/checkout@main
+      - name: Install Dependencies
         run: npm install
-      # - name: Lint
-      #   run: npm run eslint
+      - name: Build
+        run: npm run build
+        # esto hace que se guarde el archivo dist en la carpeta dist del proyecto para que se pueda subir a firebase hosting en el paso deploy
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: dist
+          path: dist
+  deploy:
+    name: Deploy
+    needs: build # esto hace que este paso se ejecute solo si el paso build se ejecuta correctamente
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@main
+      - name: Download Artifact
+        uses: actions/download-artifact@main
+        with:
+          name: dist
+          path: dist
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@main
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
